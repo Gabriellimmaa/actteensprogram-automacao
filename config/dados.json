@@ -1,0 +1,130 @@
+{
+    "imaculada conceicao": {
+        "8C": {
+            "mensagens enviadas": 15,
+            "mensagens nao enviadas": 31,
+            "mensagens visualizadas": 0
+        },
+        "8D": {
+            "mensagens enviadas": 26,
+            "mensagens nao enviadas": 0,
+            "mensagens visualizadas": 0
+        },
+        "9B": {
+            "mensagens enviadas": 0,
+            "mensagens nao enviadas": 0,
+            "mensagens visualizadas": 0
+        },
+        "9D": {
+            "mensagens enviadas": 21,
+            "mensagens nao enviadas": 0,
+            "mensagens visualizadas": 0
+        },
+        "total": {
+            "mensagens enviadas": 0,
+            "mensagens nao enviadas": 0,
+            "mensagens visualizadas": 0
+        }
+    },
+    "luiz setti": {
+        "8A": {
+            "mensagens enviadas": 0,
+            "mensagens nao enviadas": 0,
+            "mensagens visualizadas": 0
+        },
+        "9C": {
+            "mensagens enviadas": 0,
+            "mensagens nao enviadas": 0,
+            "mensagens visualizadas": 0
+        },
+        "total": {
+            "mensagens enviadas": 0,
+            "mensagens nao enviadas": 0,
+            "mensagens visualizadas": 0
+        }
+    },
+    "jose pavan": {
+        "8A": {
+            "mensagens enviadas": 0,
+            "mensagens nao enviadas": 0,
+            "mensagens visualizadas": 0
+        },
+        "8B": {
+            "mensagens enviadas": 0,
+            "mensagens nao enviadas": 0,
+            "mensagens visualizadas": 0
+        },
+        "9A": {
+            "mensagens enviadas": 0,
+            "mensagens nao enviadas": 0,
+            "mensagens visualizadas": 0
+        },
+        "9B": {
+            "mensagens enviadas": 0,
+            "mensagens nao enviadas": 0,
+            "mensagens visualizadas": 0
+        },
+        "total": {
+            "mensagens enviadas": 0,
+            "mensagens nao enviadas": 0,
+            "mensagens visualizadas": 0
+        }
+    },
+    "rui barbosa": {
+        "8A": {
+            "mensagens enviadas": 0,
+            "mensagens nao enviadas": 0,
+            "mensagens visualizadas": 0
+        },
+        "9A": {
+            "mensagens enviadas": 0,
+            "mensagens nao enviadas": 0,
+            "mensagens visualizadas": 0
+        },
+        "total": {
+            "mensagens enviadas": 0,
+            "mensagens nao enviadas": 0,
+            "mensagens visualizadas": 0
+        }
+    },
+    "grupo actteens": {
+        "grupo": {
+            "mensagens enviadas": 1,
+            "mensagens nao enviadas": 0,
+            "mensagens visualizadas": 0
+        },
+        "teste": {
+            "mensagens enviadas": 0,
+            "mensagens nao enviadas": 0,
+            "mensagens visualizadas": 0
+        },
+        "total": {
+            "mensagens enviadas": 0,
+            "mensagens nao enviadas": 0,
+            "mensagens visualizadas": 0
+        }
+    },
+    "todos": {
+        "alunos": {
+            "mensagens enviadas": 2338,
+            "mensagens nao enviadas": 67,
+            "mensagens visualizadas": 0
+        },
+        "responsaveis": {
+            "mensagens enviadas": 1094,
+            "mensagens nao enviadas": 233,
+            "mensagens visualizadas": 0
+        },
+        "total": {
+            "mensagens enviadas": 0,
+            "mensagens nao enviadas": 0,
+            "mensagens visualizadas": 0
+        }
+    },
+    "total": {
+        "mensagens enviadas": 3454,
+        "mensagens nao enviadas": 300,
+        "mensagens visualizadas": 0,
+        "tempo medio gasto por turma": 761.211441129725
+    }
+}
