@@ -5,11 +5,12 @@ from PIL import Image
 from numpy import size
 from utils import *
 from functionMessage import *
+from genGraph import *
 from threading import Thread
 from time import sleep
 import asyncio
 from multiprocessing import Process, Queue
-from genGraph import *
+
 
 sg.theme("DarkBlue13")
 
