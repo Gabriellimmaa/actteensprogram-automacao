@@ -28,6 +28,7 @@ from utils import *
 import matplotlib.pyplot as plt 
 import matplotlib
 import numpy as np 
+import utils
 
 clear = lambda: os.system('cls')
 
@@ -48,8 +49,8 @@ def sendFile(escola, turma, filepath):
     try:
         contatos_df = pd.read_excel(f"escolas/{escola}/{turma}.xlsx")
     except Exception as E:
-        print(E)
-        print(f'Planilha "escolas/{escola}/{turma}.xlsx" não encontrada')
+        print(errorFormat.format(E))
+        print(errorFormat.format(f'Planilha "escolas/{escola}/{turma}.xlsx" não encontrada'))
         return
         
     try:
@@ -61,15 +62,15 @@ def sendFile(escola, turma, filepath):
                                 options=options)
         navegador.get("https://web.whatsapp.com/")
     except:
-        print(f'Erro ao abrir whatsappWeb\n - Finalize todos os processo relacionado ao google chrome\ne execute o programa novamente')
+        print(errorFormat.format(f'Erro ao abrir whatsappWeb\n - Finalize todos os processo relacionado ao google chrome\ne execute o programa novamente'))
         return
         
 
-    print("Aguardando efetuar login no WhatsappWeb...")
+    print(warningFormat.format("Aguardando efetuar login no WhatsappWeb..."))
     while len(navegador.find_elements(by=By.ID, value="side")) < 1:
         time.sleep(1)
 
-    print("Login efetuado com sucesso")
+    print(validFormat.format("Login efetuado com sucesso"))
 
     time.sleep(5)
 
@@ -111,12 +112,12 @@ def sendFile(escola, turma, filepath):
                 
                 time.sleep(3)
                 
-                print(f'[{contadorSucesso}] Mensagem enviada | Nome: {pessoa} | Numero: {numero}')
+                print(validFormat.format(f'[{contadorSucesso}] Mensagem enviada | Nome: {pessoa} | Numero: {numero}'))
                 contadorSucesso += 1
                 time.sleep(1)
         except Exception as E:
             contadorFalha += 1
-            print(f'Erro ao enviar mensagem | Nome: {pessoa}  | Numero: {numero}')
+            print(errorFormat.format(f'Erro ao enviar mensagem | Nome: {pessoa}  | Numero: {numero}'))
 
     try:
         navegador.quit()
@@ -134,16 +135,16 @@ def sendFile(escola, turma, filepath):
         with open("config/dados.json", "w") as f:
             json.dump(dados, f, indent=4)
 
-        print("\n------------------------------------------------------")
-        print(f"\nRELATÓRIO - {getDate()}")
-        print(f" Mensagens enviadas: {contadorSucesso}")
-        print(f" Erro ao enviar mensagens: {contadorFalha}")
-        print(f" Tempo gasto: {end - start}")
-        print("\n------------------------------------------------------")
+        print(warningFormat.format("\n------------------------------------------------------"))
+        print(validFormat.format(f"\nRELATÓRIO - {getDate()}"))
+        print(validFormat.format(f" Mensagens enviadas: {contadorSucesso}"))
+        print(validFormat.format(f" Erro ao enviar mensagens: {contadorFalha}"))
+        print(validFormat.format(f" Tempo gasto: {end - start}"))
+        print(warningFormat.format("\n------------------------------------------------------"))
     except Exception as E:
-        print("---------------- Erro -----------------")
-        print(E)
-        print("---------------------------------------")
+        print(errorFormat.format("---------------- Erro -----------------"))
+        print(errorFormat.format(E))
+        print(errorFormat.format("---------------------------------------"))
         return        
 
 def sendMessage(escola, turma, mensagem):
@@ -152,7 +153,7 @@ def sendMessage(escola, turma, mensagem):
     try:
         contatos_df = pd.read_excel(f"escolas/{escola}/{turma}.xlsx")
     except:
-        print(f'Planilha "escolas/{escola}/{turma}.xlsx" não encontrada')
+        print(errorFormat.format(f'Planilha "escolas/{escola}/{turma}.xlsx" não encontrada'))
         return
 
     try:
@@ -164,15 +165,15 @@ def sendMessage(escola, turma, mensagem):
                                 options=options)
         navegador.get("https://web.whatsapp.com/")
     except:
-        print(f'Erro ao abrir whatsappWeb\n - Finalize todos os processo relacionado ao google chrome\ne execute o programa novamente')
+        print(errorFormat.format(f'Erro ao abrir whatsappWeb\n - Finalize todos os processo relacionado ao google chrome\ne execute o programa novamente'))
         return
         
 
-    print("Aguardando efetuar login no WhatsappWeb...")
+    print(warningFormat.format("Aguardando efetuar login no WhatsappWeb..."))
     while len(navegador.find_elements(by=By.ID, value="side")) < 1:
         time.sleep(1)
 
-    print("Login efetuado com sucesso")
+    print(validFormat.format("Login efetuado com sucesso"))
 
     time.sleep(5)
 
@@ -211,7 +212,7 @@ def sendMessage(escola, turma, mensagem):
                 botaoEnviarMensagem = navegador.find_elements(by=By.XPATH, value='//*[@id="main"]/footer/div[1]/div/span[2]/div/div[2]/div[2]')[0]
                 botaoEnviarMensagem.click()
                 
-                print(f'[{contadorSucesso}] Mensagem enviada | Nome: {pessoa} | Numero: {numero}')
+                print(validFormat.format(f'[{contadorSucesso}] Mensagem enviada | Nome: {pessoa} | Numero: {numero}'))
                 contadorSucesso += 1
                 time.sleep(1)
         except Exception as E:
@@ -234,16 +235,16 @@ def sendMessage(escola, turma, mensagem):
         with open("config/dados.json", "w") as f:
             json.dump(dados, f, indent=4)
         
-        print("\n------------------------------------------------------")
-        print(f"\nRELATÓRIO - {getDate()}")
-        print(f" Mensagens enviadas: {contadorSucesso}")
-        print(f" Erro ao enviar mensagens: {contadorFalha}")
-        print(f" Tempo gasto: {end - start}")
-        print("\n------------------------------------------------------")
+        print(warningFormat.format("\n------------------------------------------------------"))
+        print(validFormat.format(f"\nRELATÓRIO - {getDate()}"))
+        print(validFormat.format(f" Mensagens enviadas: {contadorSucesso}"))
+        print(validFormat.format(f" Erro ao enviar mensagens: {contadorFalha}"))
+        print(validFormat.format(f" Tempo gasto: {end - start}"))
+        print(validFormat.format("\n------------------------------------------------------"))
     except Exception as E:
-        print("---------------- Erro -----------------")
-        print(E)
-        print("---------------------------------------")
+        print(errorFormat.format("---------------- Erro -----------------"))
+        print(errorFormat.format(E))
+        print(errorFormat.format("---------------------------------------"))
         return
 
 def sendMessageTodos(escola, turma, mensagem):
@@ -252,7 +253,7 @@ def sendMessageTodos(escola, turma, mensagem):
     try:
         contatos_df = pd.read_excel(f"escolas/todos.xlsx")
     except:
-        print(f'Planilha "escolas/todos.xlsx" não encontrada')
+        print(errorFormat.format(f'Planilha "escolas/todos.xlsx" não encontrada'))
         return
         
     try:
@@ -264,15 +265,15 @@ def sendMessageTodos(escola, turma, mensagem):
                                 options=options)
         navegador.get("https://web.whatsapp.com/")
     except Exception as E:
-        print(f'Erro ao abrir whatsappWeb\n - Finalize todos os processo relacionado ao google chrome\ne execute o programa novamente')
+        print(errorFormat.format(f'Erro ao abrir whatsappWeb\n - Finalize todos os processo relacionado ao google chrome\ne execute o programa novamente'))
         return
         
 
-    print("Aguardando efetuar login no WhatsappWeb...")
+    print(warningFormat.format("Aguardando efetuar login no WhatsappWeb..."))
     while len(navegador.find_elements(by=By.ID, value="side")) < 1:
         time.sleep(1)
 
-    print("Login efetuado com sucesso")
+    print(validFormat.format("Login efetuado com sucesso"))
 
     time.sleep(5)
 
@@ -321,7 +322,7 @@ def sendMessageTodos(escola, turma, mensagem):
                 botaoEnviarMensagem = navegador.find_elements(by=By.XPATH, value='//*[@id="main"]/footer/div[1]/div/span[2]/div/div[2]/div[2]')[0]
                 botaoEnviarMensagem.click()
                 
-                print(f'[{contadorSucesso}] Mensagem enviada | Nome: {pessoa} | Numero: {numero}')
+                print(validFormat.format(f'[{contadorSucesso}] Mensagem enviada | Nome: {pessoa} | Numero: {numero}'))
                 contadorSucesso += 1
                 time.sleep(1)
         except Exception as E:
@@ -344,24 +345,24 @@ def sendMessageTodos(escola, turma, mensagem):
         with open("config/dados.json", "w") as f:
             json.dump(dados, f, indent=4)
         
-        print("\n------------------------------------------------------")
-        print(f"\nRELATÓRIO - {getDate()}")
-        print(f" Mensagens enviadas: {contadorSucesso}")
-        print(f" Erro ao enviar mensagens: {contadorFalha}")
-        print(f" Tempo gasto: {end - start}")
-        print("\n------------------------------------------------------")
+        print(warningFormat.format("\n------------------------------------------------------"))
+        print(validFormat.format(f"\nRELATÓRIO - {getDate()}"))
+        print(validFormat.format(f" Mensagens enviadas: {contadorSucesso}"))
+        print(validFormat.format(f" Erro ao enviar mensagens: {contadorFalha}"))
+        print(validFormat.format(f" Tempo gasto: {end - start}"))
+        print(warningFormat.format("\n------------------------------------------------------"))
     except Exception as E:
-        print("---------------- Erro -----------------")
-        print(E)
-        print("---------------------------------------")
+        print(errorFormat.format("---------------- Erro -----------------"))
+        print(errorFormat.format(E))
+        print(errorFormat.format("---------------------------------------"))
         return
 
 def sendFileTodos(escola, turma, filepath):
     try:
         contatos_df = pd.read_excel(f"escolas/todos.xlsx")
     except Exception as E:
-        print(E)
-        print(f'Planilha "escolas/todos.xlsx" não encontrada')
+        print(errorFormat.format(E))
+        print(errorFormat.format(f'Planilha "escolas/todos.xlsx" não encontrada'))
         return
 
     try:
@@ -373,14 +374,14 @@ def sendFileTodos(escola, turma, filepath):
                                 options=options)
         navegador.get("https://web.whatsapp.com/")
     except Exception as E:
-        print(f'Erro ao abrir whatsappWeb\n - Finalize todos os processo relacionado ao google chrome\ne execute o programa novamente')
+        print(errorFormat.format(f'Erro ao abrir whatsappWeb\n - Finalize todos os processo relacionado ao google chrome\ne execute o programa novamente'))
         return
 
-    print("Aguardando efetuar login no WhatsappWeb...")
+    print(warningFormat.format("Aguardando efetuar login no WhatsappWeb..."))
     while len(navegador.find_elements(by=By.ID, value="side")) < 1:
         time.sleep(1)
 
-    print("Login efetuado com sucesso")
+    print(validFormat.format("Login efetuado com sucesso"))
 
     time.sleep(5)
 
@@ -437,10 +438,10 @@ def sendFileTodos(escola, turma, filepath):
 
                 time.sleep(5)
                 contadorSucesso += 1
-                print(f'[{contadorSucesso}] Mensagem enviada | Nome: {pessoa} | Numero: {numero}')
+                print(validFormat.format(f'[{contadorSucesso}] Mensagem enviada | Nome: {pessoa} | Numero: {numero}'))
         except Exception as E:
             contadorFalha += 1
-            print(f'Erro ao enviar mensagem | Nome: {pessoa}  | Numero: {numero}')
+            print(errorFormat.format(f'Erro ao enviar mensagem | Nome: {pessoa}  | Numero: {numero}'))
 
     try:
         navegador.quit()
@@ -458,14 +459,14 @@ def sendFileTodos(escola, turma, filepath):
         with open("config/dados.json", "w") as f:
             json.dump(dados, f, indent=4)
 
-        print("\n------------------------------------------------------")
-        print(f"\nRELATÓRIO - {getDate()}")
-        print(f" Mensagens enviadas: {contadorSucesso}")
-        print(f" Erro ao enviar mensagens: {contadorFalha}")
-        print(f" Tempo gasto: {end - start}")
-        print("\n------------------------------------------------------")
+        print(warningFormat.format("\n------------------------------------------------------"))
+        print(validFormat.format(f"\nRELATÓRIO - {getDate()}"))
+        print(validFormat.format(f" Mensagens enviadas: {contadorSucesso}"))
+        print(validFormat.format(f" Erro ao enviar mensagens: {contadorFalha}"))
+        print(validFormat.format(f" Tempo gasto: {end - start}"))
+        print(warningFormat.format("\n------------------------------------------------------"))
     except Exception as E:
-        print("---------------- Erro -----------------")
-        print(E)
-        print("---------------------------------------")
+        print(errorFormat.format("---------------- Erro -----------------"))
+        print(errorFormat.format(E))
+        print(errorFormat.format("---------------------------------------"))
         return

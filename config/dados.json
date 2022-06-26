@@ -90,7 +90,7 @@
     "grupo actteens": {
         "grupo": {
             "mensagens enviadas": 1,
-            "mensagens nao enviadas": 0,
+            "mensagens nao enviadas": 464,
             "mensagens visualizadas": 0
         },
         "teste": {
@@ -123,8 +123,8 @@
     },
     "total": {
         "mensagens enviadas": 4096,
-        "mensagens nao enviadas": 312,
+        "mensagens nao enviadas": 776,
         "mensagens visualizadas": 0,
-        "tempo medio gasto por turma": 3088.599606912618
+        "tempo medio gasto por turma": 2687.357943038465
     }
 }

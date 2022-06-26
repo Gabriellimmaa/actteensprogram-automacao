@@ -4,6 +4,10 @@ from datetime import datetime, timedelta
 import os.path
 from os import path
 
+errorFormat = '<span style="color:red;font-weight: bold;font-size: 14px">{}</span>'
+warningFormat = '<span style="color:orange;font-weight: bold;font-size: 14px">{}</span>'
+validFormat = '<span style="color:green;font-weight: bold;font-size: 14px">{}</span>'
+
 def getTime():
     time_zone = pytz.timezone("Brazil/East")
     date_time = datetime.now(time_zone)
