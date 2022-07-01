@@ -329,6 +329,25 @@ class Ui_MainWindow(object):
         for x in itens:
               self.comboBox.addItem(str(x))
 
+    def pushButton_genGraph(self):
+        genGraph()
+
+    def pushButton_checkFiles(self):
+        check = checkFiles()
+        if (len(check[0]) + len(check[1]) + len(check[2])) == 0:
+            sg.Popup(f'Integridade do software está em 100%', keep_on_top=True)   
+
+        aux1 = ""
+        aux2 = ""
+        aux3 = ""
+        for x in check[0]:
+            aux1 += f"{x} \n"
+        for x in check[1]:
+            aux2 += f"{x} \n"
+        for x in check[2]:
+            aux3 += f"{x} \n"
+
+        sg.Popup(f'Integridade das pastas: \n{aux1}\n\nIntegridade dos arquivos: \n{aux2}\n\nIntegridade dos excel: \n{aux3}', keep_on_top=True)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -390,7 +409,9 @@ class Ui_MainWindow(object):
             "MainWindow", "Gerar gráfico dos dados:"))
         self.buttonIntegridade.setText(_translate(
             "MainWindow", "Verificar integridade"))
+        self.buttonIntegridade.clicked.connect(self.pushButton_checkFiles)
         self.buttonGrafico.setText(_translate("MainWindow", "Gerar gráfico"))
+        self.buttonGrafico.clicked.connect(self.pushButton_genGraph)
         self.tabWidget.setTabText(self.tabWidget.indexOf(
             self.config), _translate("MainWindow", "Configurações"))
 
