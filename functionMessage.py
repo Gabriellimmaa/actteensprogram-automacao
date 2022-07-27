@@ -4,35 +4,23 @@
 # EXTENSAO
 # https://chrome.google.com/webstore/detail/wa-web-plus-for-whatsapp/ekcgkejcjdcmonfpmnljobemcbpnkamh
 
-import re
-import pandas as pd
 import os
-from selenium.webdriver.common.by import By
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
 import io
-from colorama import Fore, Style, init
+import json
+import pandas as pd
+
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.chrome.service import Service
+
 import time
-import urllib
-from selenium import webdriver
 from time import sleep
-import pytz
-import datetime
-from datetime import datetime
-import sys
-import json
+
 from utils import *
-import matplotlib.pyplot as plt
-import matplotlib
-import numpy as np
-import utils
 
-
-def clear(): return os.system('cls')
-
+# Inicializa o navegador com chromedriver
 def openChrome():
     try:
         options = webdriver.ChromeOptions()
