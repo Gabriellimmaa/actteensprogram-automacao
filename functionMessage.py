@@ -84,7 +84,6 @@ def sendFile(escola, turma, filepath):
             if numero.startswith("5"):
                 if numero.endswith(".0"):
                     numero = numero[:-2]
-                numeroResponsavel = contatos_df.loc[i, "Número responsável"]
                                                 
                 actions = navegador.find_elements(by=By.TAG_NAME, value="body")[0]
                 actions.send_keys(Keys.CONTROL, Keys.ALT, "s")
@@ -97,7 +96,19 @@ def sendFile(escola, turma, filepath):
                 checkNumber = navegador.find_elements(by=By.XPATH, value=f'//a[@class="btn-ok"]')[0]
                 checkNumber.click()
                         
-                time.sleep(3)
+                time.sleep(2)
+                
+                try:
+                    auxOK = navegador.find_elements(by=By.XPATH, value=f'//div[@data-testid="popup-controls-ok"]')[0]
+                    auxOK.click()
+                    time.sleep(1)
+                    continue
+                except:
+                    pass
+                
+                while len(navegador.find_elements(by=By.XPATH, value=f'//div[@title="Mensagem"]')) < 1:
+                    time.sleep(1)
+                time.sleep(1)
                             
                 clipAttachment = navegador.find_elements(by=By.XPATH, value='//span[@data-icon="clip"]')[0]
                 clipAttachment.click()
@@ -191,17 +202,28 @@ def sendMessage(escola, turma, mensagem):
                                     
                 actions = navegador.find_elements(by=By.TAG_NAME, value="body")[0]
                 actions.send_keys(Keys.CONTROL, Keys.ALT, "s")
-                            
+                
+                time.sleep(1)
+                
                 writeNumber = navegador.find_elements(by=By.XPATH, value=f'//input[@placeholder="Número de telefone"]')[0]
                 writeNumber.send_keys(numero)
-                                            
+                        
                 checkNumber = navegador.find_elements(by=By.XPATH, value=f'//a[@class="btn-ok"]')[0]
                 checkNumber.click()
+                        
+                time.sleep(2)
                 
-                time.sleep(3)
+                try:
+                    auxOK = navegador.find_elements(by=By.XPATH, value=f'//div[@data-testid="popup-controls-ok"]')[0]
+                    auxOK.click()
+                    time.sleep(1)
+                    continue
+                except:
+                    pass
                 
                 while len(navegador.find_elements(by=By.XPATH, value=f'//div[@title="Mensagem"]')) < 1:
                     time.sleep(1)
+                time.sleep(1)
                 
                 campoDigitarMensagem = navegador.find_elements(by=By.XPATH, value=f'//div[@title="Mensagem"]')[0]
                 campoDigitarMensagem.click()
@@ -209,7 +231,7 @@ def sendMessage(escola, turma, mensagem):
 
                 time.sleep(1)
 
-                botaoEnviarMensagem = navegador.find_elements(by=By.XPATH, value='//*[@id="main"]/footer/div[1]/div/span[2]/div/div[2]/div[2]')[0]
+                botaoEnviarMensagem = navegador.find_elements(by=By.XPATH, value='//button/span[@data-icon="send"]')[0]
                 botaoEnviarMensagem.click()
                 
                 print(validFormat.format(f'[{contadorSucesso}] Mensagem enviada | Nome: {pessoa} | Numero: {numero}'))
@@ -294,6 +316,8 @@ def sendMessageTodos(escola, turma, mensagem):
                 actions = navegador.find_elements(by=By.TAG_NAME, value="body")[0]
                 actions.send_keys(Keys.CONTROL, Keys.ALT, "s")
                             
+                time.sleep(1)
+
                 writeNumber = navegador.find_elements(by=By.XPATH, value=f'//input[@placeholder="Número de telefone"]')[0]
                 writeNumber.send_keys(numero)
                                             
@@ -303,7 +327,7 @@ def sendMessageTodos(escola, turma, mensagem):
                 time.sleep(3)
                 
                 try:
-                    auxOK = navegador.find_elements(by=By.XPATH, value=f'//*[@id="app"]/div/span[2]/div/span/div/div/div/div/div/div[2]/div/div/div')[0]
+                    auxOK = navegador.find_elements(by=By.XPATH, value=f'//div[@data-testid="popup-controls-ok"]')[0]
                     auxOK.click()
                     time.sleep(1)
                     continue
@@ -319,7 +343,7 @@ def sendMessageTodos(escola, turma, mensagem):
 
                 time.sleep(1)
 
-                botaoEnviarMensagem = navegador.find_elements(by=By.XPATH, value='//*[@id="main"]/footer/div[1]/div/span[2]/div/div[2]/div[2]')[0]
+                botaoEnviarMensagem = navegador.find_elements(by=By.XPATH, value='//button/span[@data-icon="send"]')[0]
                 botaoEnviarMensagem.click()
                 
                 print(validFormat.format(f'[{contadorSucesso}] Mensagem enviada | Nome: {pessoa} | Numero: {numero}'))
@@ -414,7 +438,7 @@ def sendFileTodos(escola, turma, filepath):
                 time.sleep(2)
                 
                 try:
-                    auxOK = navegador.find_elements(by=By.XPATH, value=f'//*[@id="app"]/div/span[2]/div/span/div/div/div/div/div/div[2]/div/div/div')[0]
+                    auxOK = navegador.find_elements(by=By.XPATH, value=f'//div[@data-testid="popup-controls-ok"]')[0]
                     auxOK.click()
                     time.sleep(1)
                     continue
@@ -423,7 +447,7 @@ def sendFileTodos(escola, turma, filepath):
                 
                 while len(navegador.find_elements(by=By.XPATH, value=f'//div[@title="Mensagem"]')) < 1:
                     time.sleep(1)
-                time.sleep(2)
+                time.sleep(1)
                 
                 clipAttachment = navegador.find_elements(by=By.XPATH, value='//span[@data-icon="clip"]')[0]
                 clipAttachment.click()
@@ -431,10 +455,14 @@ def sendFileTodos(escola, turma, filepath):
                 searchImage  = navegador.find_elements(by=By.XPATH, value='//input[@accept="image/*,video/mp4,video/3gpp,video/quicktime"]')[0]
                 searchImage.send_keys(filepath)
                 
-                time.sleep(5)
-
-                sendImage = navegador.find_elements(by=By.XPATH, value='//span[@data-icon="send"]')[0]
-                sendImage.click()
+                aux = 0
+                while aux == 0:
+                    try:
+                        sendImage = navegador.find_elements(by=By.XPATH, value='//span[@data-icon="send"]')[0]
+                        sendImage.click()
+                        aux += 1
+                    except:
+                        time.sleep(1)
 
                 time.sleep(5)
                 contadorSucesso += 1

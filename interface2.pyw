@@ -135,7 +135,8 @@ class Ui_MainWindow(object):
         self.label_2.setStyleSheet("")
         self.label_2.setObjectName("label_2")
         self.consoleLog = QtWidgets.QTextEdit(self.home)
-        self.consoleLog.setEnabled(False)
+        self.consoleLog.setEnabled(True)
+        self.consoleLog.setReadOnly(True)
         self.consoleLog.setGeometry(QtCore.QRect(10, 278, 551, 181))
         self.consoleLog.setStyleSheet("border: 3px solid rgb(11, 34, 88);")
         self.consoleLog.setObjectName("consoleLog")
@@ -278,8 +279,12 @@ class Ui_MainWindow(object):
             self.consoleLog.append(validFormat.format(f"-> Escola: {escola}"))
             self.consoleLog.append(validFormat.format(f"-> Turma: {turma}"))
             self.consoleLog.append(validFormat.format(
-                f"-> Tipo mensagem: Imagem / Video"))
-            thread = Thread(target=sendMessageTodos,
+                f"-> Tipo mensagem: Texto"))
+            if turma == "todos":
+                thread = Thread(target=sendMessageTodos,
+                            args=(escola, turma, filepath))
+            else:
+                thread = Thread(target=sendMessage,
                             args=(escola, turma, filepath))
             thread.start()
             my_threads.append(thread)
@@ -288,7 +293,11 @@ class Ui_MainWindow(object):
             self.consoleLog.append(validFormat.format(f"-> Turma: {turma}"))
             self.consoleLog.append(validFormat.format(
                 f"-> Tipo mensagem: Imagem / Video"))
-            thread = Thread(target=sendFileTodos,
+            if turma == "todos":
+                thread = Thread(target=sendFileTodos,
+                            args=(escola, turma, filepath))
+            else:
+                thread = Thread(target=sendFile,
                             args=(escola, turma, filepath))
             thread.start()
             my_threads.append(thread)
@@ -335,7 +344,12 @@ class Ui_MainWindow(object):
     def pushButton_checkFiles(self):
         check = checkFiles()
         if (len(check[0]) + len(check[1]) + len(check[2])) == 0:
-            sg.Popup(f'Integridade do software está em 100%', keep_on_top=True)   
+            msg = QMessageBox()
+            msg.setWindowTitle("Verificar integridade")
+            msg.setText("Integridade do software está em 100%")
+            msg.setIcon(QMessageBox.Information)
+            msg.exec_()
+            return
 
         aux1 = ""
         aux2 = ""
@@ -346,8 +360,12 @@ class Ui_MainWindow(object):
             aux2 += f"{x} \n"
         for x in check[2]:
             aux3 += f"{x} \n"
-
-        sg.Popup(f'Integridade das pastas: \n{aux1}\n\nIntegridade dos arquivos: \n{aux2}\n\nIntegridade dos excel: \n{aux3}', keep_on_top=True)
+        
+        msg = QMessageBox()
+        msg.setWindowTitle("Tutorial on PyQt5")
+        msg.setText(f"Integridade das pastas: \n{aux1}\n\nIntegridade dos arquivos: \n{aux2}\n\nIntegridade dos excel: \n{aux3}")
+        msg.setIcon(QMessageBox.Information)
+        msg.exec_()
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
