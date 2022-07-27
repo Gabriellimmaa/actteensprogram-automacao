@@ -32,25 +32,43 @@ import utils
 
 clear = lambda: os.system('cls')
 
-def chooseOptionTodos(op, escola, turma, aux):
-    if op == "message":
-        sendMessageTodos(escola, turma, aux)
-    if op == "file":
-        sendFileTodos(escola, turma, aux)
+def saveData(escola, turma, contadorSucesso, contadorFalha, timeStart, timeEnd):
+    try:
+        with open("config/dados.json", "r") as f:
+            dados = json.load(f)
 
+        dados[escola][turma]["mensagens enviadas"] += contadorSucesso
+        dados[escola][turma]["mensagens nao enviadas"] += contadorFalha
+        dados["total"]["mensagens enviadas"] += contadorSucesso
+        dados["total"]["mensagens nao enviadas"] += contadorFalha
+        dados["total"]["tempo medio gasto por turma"] = ((dados["total"]["tempo medio gasto por turma"] + (timeEnd - timeStart))/2)
 
-def chooseOption(op, escola, turma, aux):
-    if op == "message":
-        sendMessage(escola, turma, aux)
-    if op == "file":
-        sendFile(escola, turma, aux)
+        with open("config/dados.json", "w") as f:
+            json.dump(dados, f, indent=4)
 
-def sendFile(escola, turma, filepath):
+        print(warningFormat.format("\n------------------------------------------------------"))
+        print(validFormat.format(f"\nRELATÓRIO - {getDate()}"))
+        print(validFormat.format(f" Mensagens enviadas: {contadorSucesso}"))
+        print(validFormat.format(f" Erro ao enviar mensagens: {contadorFalha}"))
+        print(validFormat.format(f" Tempo gasto: {timeEnd - timeStart}"))
+        print(warningFormat.format("\n------------------------------------------------------"))
+    except Exception as E:
+        print(errorFormat.format("---------------- Erro -----------------"))
+        print(errorFormat.format(E))
+        print(errorFormat.format("---------------------------------------"))
+        return        
+
+def existExcel(escola, turma):
     try:
         contatos_df = pd.read_excel(f"escolas/{escola}/{turma}.xlsx")
+        return contatos_df
     except Exception as E:
-        print(errorFormat.format(E))
         print(errorFormat.format(f'Planilha "escolas/{escola}/{turma}.xlsx" não encontrada'))
+        return False
+
+def sendFile(escola, turma, filepath):
+    contatos_df = existExcel(escola, turma)
+    if contatos_df == False:
         return
         
     try:
@@ -76,7 +94,7 @@ def sendFile(escola, turma, filepath):
 
     contadorSucesso = 0
     contadorFalha = 0
-    start = time.time()
+    timeStart = time.time()
     for i, mensagem in enumerate(contatos_df['Aluno']):
         try:
             pessoa = contatos_df.loc[i, "Aluno"]
@@ -130,41 +148,15 @@ def sendFile(escola, turma, filepath):
             contadorFalha += 1
             print(errorFormat.format(f'Erro ao enviar mensagem | Nome: {pessoa}  | Numero: {numero}'))
 
-    try:
-        navegador.quit()
-        end = time.time()
-
-        with open("config/dados.json", "r") as f:
-            dados = json.load(f)
-
-        dados[escola][turma]["mensagens enviadas"] += contadorSucesso
-        dados[escola][turma]["mensagens nao enviadas"] += contadorFalha
-        dados["total"]["mensagens enviadas"] += contadorSucesso
-        dados["total"]["mensagens nao enviadas"] += contadorFalha
-        dados["total"]["tempo medio gasto por turma"] = ((dados["total"]["tempo medio gasto por turma"] + (end - start))/2)
-
-        with open("config/dados.json", "w") as f:
-            json.dump(dados, f, indent=4)
-
-        print(warningFormat.format("\n------------------------------------------------------"))
-        print(validFormat.format(f"\nRELATÓRIO - {getDate()}"))
-        print(validFormat.format(f" Mensagens enviadas: {contadorSucesso}"))
-        print(validFormat.format(f" Erro ao enviar mensagens: {contadorFalha}"))
-        print(validFormat.format(f" Tempo gasto: {end - start}"))
-        print(warningFormat.format("\n------------------------------------------------------"))
-    except Exception as E:
-        print(errorFormat.format("---------------- Erro -----------------"))
-        print(errorFormat.format(E))
-        print(errorFormat.format("---------------------------------------"))
-        return        
+    navegador.quit()
+    timeEnd = time.time()
+    saveData(escola, turma, contadorSucesso, contadorFalha, timeStart, timeEnd)
 
 def sendMessage(escola, turma, mensagem):
-    texto = io.open(mensagem,'r', encoding="utf8").read().rstrip("\n")
+    texto = io.open(mensagem,'r', encoding="utf8").read()
 
-    try:
-        contatos_df = pd.read_excel(f"escolas/{escola}/{turma}.xlsx")
-    except:
-        print(errorFormat.format(f'Planilha "escolas/{escola}/{turma}.xlsx" não encontrada'))
+    contatos_df = existExcel(escola, turma)
+    if contatos_df == False:
         return
 
     try:
@@ -190,7 +182,7 @@ def sendMessage(escola, turma, mensagem):
 
     contadorSucesso = 0
     contadorFalha = 0
-    start = time.time()
+    timeStart = time.time()
     for i, mensagem in enumerate(contatos_df['Aluno']):
         try:
             pessoa = contatos_df.loc[i, "Aluno"]
@@ -198,7 +190,6 @@ def sendMessage(escola, turma, mensagem):
             if numero.startswith("5"):
                 if numero.endswith(".0"):
                     numero = numero[:-2]
-                numeroResponsavel = contatos_df.loc[i, "Número responsável"]
                                     
                 actions = navegador.find_elements(by=By.TAG_NAME, value="body")[0]
                 actions.send_keys(Keys.CONTROL, Keys.ALT, "s")
@@ -241,41 +232,15 @@ def sendMessage(escola, turma, mensagem):
             contadorFalha += 1
             pass
         
-    try:
-        navegador.quit()
-        end = time.time()
-
-        with open("config/dados.json", "r") as f:
-            dados = json.load(f)
-
-        dados[escola][turma]["mensagens enviadas"] += contadorSucesso
-        dados[escola][turma]["mensagens nao enviadas"] += contadorFalha
-        dados["total"]["mensagens enviadas"] += contadorSucesso
-        dados["total"]["mensagens nao enviadas"] += contadorFalha
-        dados["total"]["tempo medio gasto por turma"] = ((dados["total"]["tempo medio gasto por turma"] + (end - start))/2)
-        
-        with open("config/dados.json", "w") as f:
-            json.dump(dados, f, indent=4)
-        
-        print(warningFormat.format("\n------------------------------------------------------"))
-        print(validFormat.format(f"\nRELATÓRIO - {getDate()}"))
-        print(validFormat.format(f" Mensagens enviadas: {contadorSucesso}"))
-        print(validFormat.format(f" Erro ao enviar mensagens: {contadorFalha}"))
-        print(validFormat.format(f" Tempo gasto: {end - start}"))
-        print(validFormat.format("\n------------------------------------------------------"))
-    except Exception as E:
-        print(errorFormat.format("---------------- Erro -----------------"))
-        print(errorFormat.format(E))
-        print(errorFormat.format("---------------------------------------"))
-        return
+    navegador.quit()
+    timeEnd = time.time()
+    saveData(escola, turma, contadorSucesso, contadorFalha, timeStart, timeEnd)
 
 def sendMessageTodos(escola, turma, mensagem):
-    texto = io.open(mensagem,'r', encoding="utf8").read().rstrip("\n")
+    texto = io.open(mensagem,'r', encoding="utf8").read()
 
-    try:
-        contatos_df = pd.read_excel(f"escolas/todos.xlsx")
-    except:
-        print(errorFormat.format(f'Planilha "escolas/todos.xlsx" não encontrada'))
+    contatos_df = existExcel(escola, turma)
+    if contatos_df == False:
         return
         
     try:
@@ -301,7 +266,7 @@ def sendMessageTodos(escola, turma, mensagem):
 
     contadorSucesso = 0
     contadorFalha = 0
-    start = time.time()
+    timeStart = time.time()
     for i, mensagem in enumerate(contatos_df['Aluno']):
         try:
             if turma == "alunos":
@@ -353,40 +318,13 @@ def sendMessageTodos(escola, turma, mensagem):
             contadorFalha += 1
             pass
         
-    try:
-        navegador.quit()
-        end = time.time()
-
-        with open("config/dados.json", "r") as f:
-            dados = json.load(f)
-
-        dados[escola][turma]["mensagens enviadas"] += contadorSucesso
-        dados[escola][turma]["mensagens nao enviadas"] += contadorFalha
-        dados["total"]["mensagens enviadas"] += contadorSucesso
-        dados["total"]["mensagens nao enviadas"] += contadorFalha
-        dados["total"]["tempo medio gasto por turma"] = ((dados["total"]["tempo medio gasto por turma"] + (end - start))/2)
-        
-        with open("config/dados.json", "w") as f:
-            json.dump(dados, f, indent=4)
-        
-        print(warningFormat.format("\n------------------------------------------------------"))
-        print(validFormat.format(f"\nRELATÓRIO - {getDate()}"))
-        print(validFormat.format(f" Mensagens enviadas: {contadorSucesso}"))
-        print(validFormat.format(f" Erro ao enviar mensagens: {contadorFalha}"))
-        print(validFormat.format(f" Tempo gasto: {end - start}"))
-        print(warningFormat.format("\n------------------------------------------------------"))
-    except Exception as E:
-        print(errorFormat.format("---------------- Erro -----------------"))
-        print(errorFormat.format(E))
-        print(errorFormat.format("---------------------------------------"))
-        return
+    navegador.quit()
+    timeEnd = time.time()
+    saveData(escola, turma, contadorSucesso, contadorFalha, timeStart, timeEnd)
 
 def sendFileTodos(escola, turma, filepath):
-    try:
-        contatos_df = pd.read_excel(f"escolas/todos.xlsx")
-    except Exception as E:
-        print(errorFormat.format(E))
-        print(errorFormat.format(f'Planilha "escolas/todos.xlsx" não encontrada'))
+    contatos_df = existExcel(escola, turma)
+    if contatos_df == False:
         return
 
     try:
@@ -411,7 +349,7 @@ def sendFileTodos(escola, turma, filepath):
 
     contadorSucesso = 0
     contadorFalha = 0
-    start = time.time()
+    timeStart = time.time()
     for i, mensagem in enumerate(contatos_df['Aluno']):
         try:
             if turma == "alunos":
@@ -471,30 +409,6 @@ def sendFileTodos(escola, turma, filepath):
             contadorFalha += 1
             print(errorFormat.format(f'Erro ao enviar mensagem | Nome: {pessoa}  | Numero: {numero}'))
 
-    try:
-        navegador.quit()
-        end = time.time()
-
-        with open("config/dados.json", "r") as f:
-            dados = json.load(f)
-
-        dados[escola][turma]["mensagens enviadas"] += contadorSucesso
-        dados[escola][turma]["mensagens nao enviadas"] += contadorFalha
-        dados["total"]["mensagens enviadas"] += contadorSucesso
-        dados["total"]["mensagens nao enviadas"] += contadorFalha
-        dados["total"]["tempo medio gasto por turma"] = ((dados["total"]["tempo medio gasto por turma"] + (end - start))/2)
-
-        with open("config/dados.json", "w") as f:
-            json.dump(dados, f, indent=4)
-
-        print(warningFormat.format("\n------------------------------------------------------"))
-        print(validFormat.format(f"\nRELATÓRIO - {getDate()}"))
-        print(validFormat.format(f" Mensagens enviadas: {contadorSucesso}"))
-        print(validFormat.format(f" Erro ao enviar mensagens: {contadorFalha}"))
-        print(validFormat.format(f" Tempo gasto: {end - start}"))
-        print(warningFormat.format("\n------------------------------------------------------"))
-    except Exception as E:
-        print(errorFormat.format("---------------- Erro -----------------"))
-        print(errorFormat.format(E))
-        print(errorFormat.format("---------------------------------------"))
-        return
+    navegador.quit()
+    timeEnd = time.time()
+    saveData(escola, turma, contadorSucesso, contadorFalha, timeStart, timeEnd)
