@@ -1,8 +1,7 @@
 # 💻 Automação WhatsApp - ACTTEENS Program
 
 <h1 align="center">
-  <img src="public/assets/preview1.png">
-  <img src="public/assets/preview2.png">
+  <img src="public/assets/preview.png">
 </h1>
 
 ---
