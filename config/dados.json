@@ -106,7 +106,7 @@
     },
     "todos": {
         "alunos": {
-            "mensagens enviadas": 5053,
+            "mensagens enviadas": 5276,
             "mensagens nao enviadas": 1036,
             "mensagens visualizadas": 0
         },
@@ -122,9 +122,9 @@
         }
     },
     "total": {
-        "mensagens enviadas": 6628,
+        "mensagens enviadas": 6851,
         "mensagens nao enviadas": 1975,
         "mensagens visualizadas": 0,
-        "tempo medio gasto por turma": 3722.383694970842
+        "tempo medio gasto por turma": 3117.2375545920113
     }
 }
