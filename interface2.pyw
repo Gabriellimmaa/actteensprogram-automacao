@@ -293,7 +293,7 @@ class Ui_MainWindow(object):
             self.consoleLog.append(validFormat.format(f"-> Turma: {turma}"))
             self.consoleLog.append(validFormat.format(
                 f"-> Tipo mensagem: Imagem / Video"))
-            if turma == "todos":
+            if escola == "todos":
                 thread = Thread(target=sendFileTodos,
                             args=(escola, turma, filepath))
             else:
