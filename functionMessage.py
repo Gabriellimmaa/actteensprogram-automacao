@@ -80,7 +80,10 @@ def saveData(escola, turma, contadorSucesso, contadorFalha, timeStart, timeEnd):
 # Verifica se essa turma tem uma planilha criada
 def existExcel(escola, turma):
     try:
-        contatos_df = pd.read_excel(f"escolas/{escola}/{turma}.xlsx")
+        if escola == "todos":
+            contatos_df = pd.read_excel(f"escolas/{escola}.xlsx")
+        else:
+            contatos_df = pd.read_excel(f"escolas/{escola}/{turma}.xlsx")
         return contatos_df
     except Exception as E:
         print(errorFormat.format(
@@ -90,11 +93,11 @@ def existExcel(escola, turma):
 # Envia arquivo para uma unica turma
 def sendFile(escola, turma, filepath):
     contatos_df = existExcel(escola, turma)
-    if contatos_df == False:
+    if contatos_df is False:
         return
 
     browser = openChrome()
-    if browser == False:
+    if browser is False:
         return
 
     contadorSucesso = 0
@@ -171,11 +174,11 @@ def sendMessage(escola, turma, mensagem):
     texto = io.open(mensagem, 'r', encoding="utf8").read()
 
     contatos_df = existExcel(escola, turma)
-    if contatos_df == False:
+    if contatos_df is False:
         return
 
     browser = openChrome()
-    if browser == False:
+    if browser is False:
         return
 
     contadorSucesso = 0
@@ -246,11 +249,11 @@ def sendMessageTodos(escola, turma, mensagem):
     texto = io.open(mensagem, 'r', encoding="utf8").read()
 
     contatos_df = existExcel(escola, turma)
-    if contatos_df == False:
+    if contatos_df is False:
         return
 
     browser = openChrome()
-    if browser == False:
+    if browser is False:
         return
 
     contadorSucesso = 0
@@ -321,11 +324,10 @@ def sendMessageTodos(escola, turma, mensagem):
 # Envia arquivo para todas as turmas
 def sendFileTodos(escola, turma, filepath):
     contatos_df = existExcel(escola, turma)
-    if contatos_df == False:
+    if contatos_df is False:
         return
-
     browser = openChrome()
-    if browser == False:
+    if browser is False:
         return
 
     contadorSucesso = 0
