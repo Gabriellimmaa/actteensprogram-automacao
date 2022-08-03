@@ -3,3 +3,7 @@ __pycache__/*
 actteens.spec
 dist/actteens.exe
 build/*
+config/dados.json
+envios/*
+escolas/*
+config/dados.json
