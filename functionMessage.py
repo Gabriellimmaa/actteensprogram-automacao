@@ -164,6 +164,7 @@ def sendFile(escola, turma, filepath):
             contadorFalha += 1
             print(errorFormat.format(
                 f'Erro ao enviar mensagem | Nome: {pessoa}  | Numero: {numero}'))
+            pass
 
     browser.quit()
     timeEnd = time.time()
@@ -238,6 +239,8 @@ def sendMessage(escola, turma, mensagem):
                 time.sleep(1)
         except Exception as E:
             contadorFalha += 1
+            print(errorFormat.format(
+                f'Erro ao enviar mensagem | Nome: {pessoa}  | Numero: {numero}'))
             pass
 
     browser.quit()
@@ -315,6 +318,8 @@ def sendMessageTodos(escola, turma, mensagem):
                 time.sleep(1)
         except Exception as E:
             contadorFalha += 1
+            print(errorFormat.format(
+                f'Erro ao enviar mensagem | Nome: {pessoa}  | Numero: {numero}'))
             pass
 
     browser.quit()
@@ -400,6 +405,7 @@ def sendFileTodos(escola, turma, filepath):
             contadorFalha += 1
             print(errorFormat.format(
                 f'Erro ao enviar mensagem | Nome: {pessoa}  | Numero: {numero}'))
+            pass
 
     browser.quit()
     timeEnd = time.time()
