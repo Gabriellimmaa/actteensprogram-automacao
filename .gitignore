@@ -7,3 +7,5 @@ config/dados.json
 envios/*
 escolas/*
 config/dados.json
+config/dados.json
+envios/mensagem.txt
